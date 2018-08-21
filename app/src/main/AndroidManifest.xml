@@ -17,7 +17,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.AppDrawer" android:launchMode="singleTask"/>
+        <activity android:name=".fragments.AppDrawerFragment" android:launchMode="singleTask"/>
     </application>
 
 </manifest>

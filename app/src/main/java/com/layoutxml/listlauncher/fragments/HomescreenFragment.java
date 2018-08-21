@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 
 import com.layoutxml.listlauncher.R;
 
-public class Homescreen extends Fragment implements View.OnClickListener{
+public class HomescreenFragment extends Fragment implements View.OnClickListener{
 
-    public Homescreen() {
+    public HomescreenFragment() {
     }
 
     @Override

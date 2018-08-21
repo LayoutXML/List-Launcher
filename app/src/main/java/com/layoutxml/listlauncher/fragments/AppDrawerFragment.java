@@ -1,13 +1,17 @@
-package com.layoutxml.listlauncher.activities;
+package com.layoutxml.listlauncher.fragments;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.layoutxml.listlauncher.R;
 import com.layoutxml.listlauncher.adapters.AppListAdapter;
@@ -19,22 +23,27 @@ import java.util.List;
 /**
  * Created by LayoutXML on 21/08/2018
  */
-public class AppDrawer extends Activity {
+public class AppDrawerFragment extends Fragment {
 
-    private static final String TAG = "AppDrawer";
+    private static final String TAG = "AppDrawerFragment";
     private AppListAdapter appListAdapter;
+    private PackageManager packageManager;
+
+    public AppDrawerFragment(){
+    }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.app_drawer);
-
-        appListAdapter = new AppListAdapter(this);
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.app_drawer, container, false);
+        appListAdapter = new AppListAdapter(view.getContext());
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setAdapter(appListAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        packageManager = view.getContext().getPackageManager();
 
         new newThread().execute();
+
+        return view;
     }
 
     public void updateStuff() {
@@ -47,7 +56,7 @@ public class AppDrawer extends Activity {
         @Override
         protected String doInBackground(Void... voids) {
 
-            PackageManager packageManager = getApplicationContext().getPackageManager();
+
             AppListAdapter.appList = new ArrayList<>();
 
             Intent intent = new Intent(Intent.ACTION_MAIN, null);
