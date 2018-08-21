@@ -1,4 +1,4 @@
-package com.layoutxml.listlauncher;
+package com.layoutxml.listlauncher.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.layoutxml.listlauncher.R;
 
 public class Homescreen extends Fragment implements View.OnClickListener{
 

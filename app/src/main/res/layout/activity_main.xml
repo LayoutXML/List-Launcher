@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/fragment"
-        android:name="com.layoutxml.listlauncher.Homescreen"
+        android:name="com.layoutxml.listlauncher.fragments.Homescreen"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
