@@ -18,6 +18,9 @@ import com.layoutxml.listlauncher.adapters.AppListAdapter;
 import com.layoutxml.listlauncher.objects.AppData;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -37,6 +40,7 @@ public class AppDrawerFragment extends Fragment {
         View view = inflater.inflate(R.layout.app_drawer, container, false);
         appListAdapter = new AppListAdapter(view.getContext());
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(appListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         packageManager = view.getContext().getPackageManager();
@@ -47,7 +51,7 @@ public class AppDrawerFragment extends Fragment {
     }
 
     public void updateStuff() {
-        appListAdapter.notifyItemInserted(appListAdapter.getItemCount()-1);
+        appListAdapter.notifyDataSetChanged();
 
     }
 
@@ -70,6 +74,16 @@ public class AppDrawerFragment extends Fragment {
                 newApp.setIcon(app.activityInfo.loadIcon(packageManager));
                 AppListAdapter.appList.add(newApp);
             }
+
+            Collections.sort(AppListAdapter.appList, new Comparator<AppData>(){
+                public int compare(AppData obj1, AppData obj2) {
+                    //Ascending order
+                    return obj1.getName().compareToIgnoreCase(obj2.getName()); // To compare string values
+
+                    // Descending order
+                    // return obj2.firstName.compareToIgnoreCase(obj1.firstName); // To compare string values
+                }
+            });
 
             return "Success";
 
