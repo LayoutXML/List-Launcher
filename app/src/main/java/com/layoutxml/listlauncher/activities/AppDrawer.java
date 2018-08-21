@@ -23,6 +23,7 @@ public class AppDrawer extends Activity {
 
     private static final String TAG = "AppDrawer";
     private AppListAdapter appListAdapter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
