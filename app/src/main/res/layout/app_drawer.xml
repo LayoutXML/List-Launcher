@@ -5,5 +5,4 @@
     android:layout_height="match_parent"
     android:background="#000000"
     android:orientation="vertical">
-
 </android.support.v7.widget.RecyclerView>

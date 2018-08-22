@@ -61,6 +61,7 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
 
         ImageView imageView = viewHolder.appIcon;
         imageView.setImageDrawable(appIcon);
+        imageView.setContentDescription(appName);
     }
 
     @Override
