@@ -18,6 +18,8 @@ import android.widget.TextView;
 import com.layoutxml.applistmanagerlibrary.objects.AppData;
 import com.layoutxml.listlauncher.MainActivity;
 import com.layoutxml.listlauncher.R;
+import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
+
 import java.util.List;
 
 /**
@@ -45,9 +47,16 @@ public class AppDrawerFragment extends Fragment {
         return view;
     }
 
-    public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHolder> {
+    public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHolder> implements FastScrollRecyclerView.SectionedAdapter {
 
         private List<AppData> appList;
+
+        @NonNull
+        @Override
+        public String getSectionName(int position) {
+            AppData app = appList.get(position);
+            return app.getName().substring(0,1);
+        }
 
         class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             TextView appName, packageName;
