@@ -1,9 +1,9 @@
 package com.layoutxml.listlauncher.fragments;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.os.AsyncTask;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -12,15 +12,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.layoutxml.applistmanagerlibrary.objects.AppData;
+import com.layoutxml.listlauncher.MainActivity;
 import com.layoutxml.listlauncher.R;
-import com.layoutxml.listlauncher.adapters.AppListAdapter;
-import com.layoutxml.listlauncher.objects.AppData;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -29,8 +26,7 @@ import java.util.List;
 public class AppDrawerFragment extends Fragment {
 
     private static final String TAG = "AppDrawerFragment";
-    private AppListAdapter appListAdapter;
-    private PackageManager packageManager;
+    public static AppListAdapter appListAdapter;
 
     public AppDrawerFragment(){
     }
@@ -38,61 +34,73 @@ public class AppDrawerFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.app_drawer, container, false);
-        appListAdapter = new AppListAdapter(view.getContext());
+
+        appListAdapter = new AppListAdapter(MainActivity.appDataList);
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(appListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        packageManager = view.getContext().getPackageManager();
-
-        new newThread().execute();
 
         return view;
     }
 
-    public void updateStuff() {
-        appListAdapter.notifyDataSetChanged();
+    public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHolder> {
 
-    }
+        private List<AppData> appList;
 
-    public class newThread extends AsyncTask<Void, Void, String> {
+        class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+            TextView appName, packageName;
+            ImageView appIcon;
 
-        @Override
-        protected String doInBackground(Void... voids) {
-
-
-            AppListAdapter.appList = new ArrayList<>();
-
-            Intent intent = new Intent(Intent.ACTION_MAIN, null);
-            intent.addCategory(Intent.CATEGORY_LAUNCHER);
-
-            List<ResolveInfo> apps = packageManager.queryIntentActivities(intent, 0);
-            for (ResolveInfo app:apps) {
-                AppData newApp = new AppData();
-                newApp.setName(app.loadLabel(packageManager).toString());
-                newApp.setPackageName(app.activityInfo.packageName);
-                newApp.setIcon(app.activityInfo.loadIcon(packageManager));
-                AppListAdapter.appList.add(newApp);
+            ViewHolder(View itemView) {
+                super(itemView);
+                appName = itemView.findViewById(R.id.itemName);
+                packageName = itemView.findViewById(R.id.itemPackageName);
+                appIcon = itemView.findViewById(R.id.itemLogo);
+                itemView.setOnClickListener(this);
             }
 
-            Collections.sort(AppListAdapter.appList, new Comparator<AppData>(){
-                public int compare(AppData obj1, AppData obj2) {
-                    //Ascending order
-                    return obj1.getName().compareToIgnoreCase(obj2.getName()); // To compare string values
+            @Override
+            public void onClick(View view) {
+                ComponentName name = new ComponentName(appList.get(getAdapterPosition()).getPackageName(), appList.get(getAdapterPosition()).getActivityName());
+                Intent i = new Intent(Intent.ACTION_MAIN);
 
-                    // Descending order
-                    // return obj2.firstName.compareToIgnoreCase(obj1.firstName); // To compare string values
-                }
-            });
+                i.addCategory(Intent.CATEGORY_LAUNCHER);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                i.setComponent(name);
 
-            return "Success";
+                startActivity(i);
+            }
+        }
 
+        AppListAdapter(List<AppData> appDataList) {
+            appList = appDataList;
         }
 
         @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            updateStuff();
+        public void onBindViewHolder(@NonNull AppListAdapter.ViewHolder viewHolder, int integer) {
+            AppData app = appList.get(integer);
+            String appName = app.getName();
+            String appPackageName = app.getPackageName();
+            Drawable appIcon = app.getIcon();
+
+            viewHolder.appName.setText(appName);
+            viewHolder.packageName.setText(appPackageName);
+            viewHolder.appIcon.setImageDrawable(appIcon);
+            viewHolder.appIcon.setContentDescription(appName);
+        }
+
+        @Override
+        public int getItemCount() {
+            return appList.size();
+        }
+
+        @NonNull
+        @Override
+        public AppListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+            View view = inflater.inflate(R.layout.app_item_view, parent, false);
+            return new ViewHolder(view);
         }
 
     }
