@@ -5,4 +5,6 @@
     <color name="colorAccent">#ffeb00</color>
     <color name="white">#ffffff</color>
     <color name="gray">#9E9E9E</color>
+    <color name="background">#000000</color>
+    <color name="ripple_color">#ccffffff</color>
 </resources>

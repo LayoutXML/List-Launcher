@@ -27,6 +27,7 @@ public class AppDrawerFragment extends Fragment {
 
     private static final String TAG = "AppDrawerFragment";
     public static AppListAdapter appListAdapter;
+    private RecyclerView recyclerView;
 
     public AppDrawerFragment(){
     }
@@ -36,7 +37,7 @@ public class AppDrawerFragment extends Fragment {
         View view = inflater.inflate(R.layout.app_drawer, container, false);
 
         appListAdapter = new AppListAdapter(MainActivity.appDataList);
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(appListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
