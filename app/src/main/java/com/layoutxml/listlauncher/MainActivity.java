@@ -90,6 +90,9 @@ public class MainActivity extends AppCompatActivity implements ActivityListener,
     protected void onResume() {
         super.onResume();
         AppList.registerListeners(null,MainActivity.this,null,MainActivity.this,null,MainActivity.this,MainActivity.this);
+        if (appDataList!=null) {
+            AppList.getAllNewActivities(getApplicationContext(),appDataList,mainIntent,1);
+        }
     }
 
     @Override
@@ -103,12 +106,14 @@ public class MainActivity extends AppCompatActivity implements ActivityListener,
 
     @Override
     public void newActivityListener(List<AppData> list, Intent intent, Integer integer, Integer integer1, Boolean aBoolean, Boolean aBoolean1, Integer integer2) {
-
+        list.addAll(appDataList);
+        AppList.sort(list, AppList.BY_APPNAME,AppList.IN_ASCENDING,integer2);
     }
 
     @Override
     public void uninstalledActivityListener(List<AppData> list, Intent intent, Integer integer, Integer integer1, Boolean aBoolean, Boolean aBoolean1, Integer integer2) {
-
+        appDataList.removeAll(list);
+        AppList.sort(appDataList,AppList.BY_APPNAME,AppList.IN_ASCENDING,integer2);
     }
 
     @Override
@@ -117,5 +122,7 @@ public class MainActivity extends AppCompatActivity implements ActivityListener,
         appDataList.addAll(list);
         if (AppDrawerFragment.appListAdapter!=null)
             AppDrawerFragment.appListAdapter.notifyDataSetChanged();
+        if (integer2==1 || integer2==-1)
+            AppList.getAllUninstalledActivities(getApplicationContext(),appDataList,mainIntent,2);
     }
 }
