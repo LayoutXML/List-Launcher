@@ -34,18 +34,6 @@ public class MainActivity extends AppCompatActivity implements ActivityListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (findViewById(R.id.fragment_container) != null) {
-
-            if (savedInstanceState != null) {
-                return;
-            }
-
-            HomescreenFragment homescreenFragmentFragment = new HomescreenFragment();
-            homescreenFragmentFragment.setArguments(getIntent().getExtras());
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, homescreenFragmentFragment).commit();
-
-        }
-
         AppList.registerListeners(null,MainActivity.this,null,MainActivity.this,null,MainActivity.this,MainActivity.this);
 
         mainIntent = new Intent(Intent.ACTION_MAIN, null);
