@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.layoutxml.applistmanagerlibrary.AppList;
 import com.layoutxml.applistmanagerlibrary.interfaces.ActivityListener;
@@ -51,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements ActivityListener,
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
 
         AppList.getAllActivities(getApplicationContext(),mainIntent,0);
+        if (AppDrawerFragment.progressBar!=null)
+            AppDrawerFragment.progressBar.setVisibility(View.VISIBLE);
 
         BottomNavigationView navigationView = findViewById(R.id.bottomNavigationView);
         navigationView.setOnNavigationItemSelectedListener(
@@ -114,6 +117,8 @@ public class MainActivity extends AppCompatActivity implements ActivityListener,
 
     @Override
     public void sortListener(List<AppData> list, Integer integer, Integer integer1, Integer integer2) {
+        if (AppDrawerFragment.progressBar!=null)
+            AppDrawerFragment.progressBar.setVisibility(View.GONE);
         appDataList.clear();
         appDataList.addAll(list);
         if (AppDrawerFragment.appListAdapter!=null)

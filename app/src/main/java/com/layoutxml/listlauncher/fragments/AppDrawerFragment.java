@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.layoutxml.applistmanagerlibrary.objects.AppData;
@@ -30,6 +31,7 @@ public class AppDrawerFragment extends Fragment {
     private static final String TAG = "AppDrawerFragment";
     public static AppListAdapter appListAdapter;
     private RecyclerView recyclerView;
+    public static ProgressBar progressBar;
 
     public AppDrawerFragment(){
     }
@@ -37,6 +39,8 @@ public class AppDrawerFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.app_drawer, container, false);
+
+        progressBar = view.findViewById(R.id.progressBar);
 
         appListAdapter = new AppListAdapter(MainActivity.appDataList);
         recyclerView = view.findViewById(R.id.recycler_view);
@@ -85,6 +89,7 @@ public class AppDrawerFragment extends Fragment {
 
         AppListAdapter(List<AppData> appDataList) {
             appList = appDataList;
+            progressBar.setVisibility(View.GONE);
         }
 
         @Override
