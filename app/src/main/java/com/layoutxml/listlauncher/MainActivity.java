@@ -26,8 +26,12 @@ public class MainActivity extends AppCompatActivity implements ActivityListener,
 
     private static final String TAG = "MainActivity";
     public static List<AppData> appDataList = new ArrayList<>();
+
+    @Override
+    public void onBackPressed() {
+    }
+
     private Intent mainIntent = new Intent();
-    private Boolean waitingForList = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,14 +58,12 @@ public class MainActivity extends AppCompatActivity implements ActivityListener,
                                 AppDrawerFragment appdrawerFragment = new AppDrawerFragment();
                                 appdrawerFragment.setArguments(getIntent().getExtras());
                                 transaction.replace(R.id.fragment_container,appdrawerFragment);
-                                transaction.addToBackStack(null);
                                 transaction.commit();
                                 return true;
                             case R.id.homeItem:
                                 HomescreenFragment homescreenFragmentFragment = new HomescreenFragment();
                                 homescreenFragmentFragment.setArguments(getIntent().getExtras());
                                 transaction.replace(R.id.fragment_container, homescreenFragmentFragment);
-                                transaction.addToBackStack(null);
                                 transaction.commit();
                                 return true;
                         }
