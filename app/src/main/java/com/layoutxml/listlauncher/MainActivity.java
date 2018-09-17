@@ -6,6 +6,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.layoutxml.applistmanagerlibrary.AppList;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements ActivityListener,
         mainIntent = new Intent(Intent.ACTION_MAIN, null);
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
 
-        AppList.getAllActivities(getApplicationContext(), mainIntent, 0);
+        AppList.getAllActivities(getApplicationContext(),mainIntent,0);
 
         BottomNavigationView navigationView = findViewById(R.id.bottomNavigationView);
         navigationView.setOnNavigationItemSelectedListener(
@@ -89,14 +90,10 @@ public class MainActivity extends AppCompatActivity implements ActivityListener,
     @Override
     protected void onResume() {
         super.onResume();
-        AppList.registerListeners(null,MainActivity.this,null,MainActivity.this,null,MainActivity.this,MainActivity.this);
-        if (appDataList!=null) {
-            AppList.getAllNewActivities(getApplicationContext(),appDataList,mainIntent,1);
+        if (appDataList!=null && appDataList.size()!=0) {
+            AppList.getAllNewActivities(getApplicationContext(), appDataList, mainIntent, 1);
+            AppList.getAllUninstalledActivities(getApplicationContext(), appDataList, mainIntent, 2);
         }
-    }
-
-    @Override
-    public void onBackPressed() {
     }
 
     @Override
@@ -113,7 +110,6 @@ public class MainActivity extends AppCompatActivity implements ActivityListener,
     @Override
     public void uninstalledActivityListener(List<AppData> list, Intent intent, Integer integer, Integer integer1, Boolean aBoolean, Boolean aBoolean1, Integer integer2) {
         appDataList.removeAll(list);
-        AppList.sort(appDataList,AppList.BY_APPNAME,AppList.IN_ASCENDING,integer2);
     }
 
     @Override
@@ -122,7 +118,5 @@ public class MainActivity extends AppCompatActivity implements ActivityListener,
         appDataList.addAll(list);
         if (AppDrawerFragment.appListAdapter!=null)
             AppDrawerFragment.appListAdapter.notifyDataSetChanged();
-        if (integer2==1 || integer2==-1)
-            AppList.getAllUninstalledActivities(getApplicationContext(),appDataList,mainIntent,2);
     }
 }
