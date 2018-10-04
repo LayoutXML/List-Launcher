@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements ActivityListener,
 
     @Override
     public void activityListener(List<AppData> list, Intent intent, Integer integer, Integer integer1, Boolean aBoolean, Integer integer2) {
-        AppList.sort(list,AppList.BY_APPNAME,AppList.IN_ASCENDING,integer2);
+        AppList.sort(list,AppList.BY_APPNAME_IGNORE_CASE,AppList.IN_ASCENDING,integer2);
     }
 
     @Override
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements ActivityListener,
         if (aBoolean1)
             AppList.getAllNewActivities(getApplicationContext(),appDataList,mainIntent,1);
         else
-            AppList.sort(list, AppList.BY_APPNAME,AppList.IN_ASCENDING,integer2);
+            AppList.sort(list, AppList.BY_APPNAME_IGNORE_CASE,AppList.IN_ASCENDING,integer2);
     }
 
     @Override
