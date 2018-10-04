@@ -97,7 +97,10 @@ public class MainActivity extends AppCompatActivity implements ActivityListener,
     @Override
     public void newActivityListener(List<AppData> list, Intent intent, Integer integer, Integer integer1, Boolean aBoolean, Boolean aBoolean1, Integer integer2) {
         list.addAll(appDataList);
-        AppList.sort(list, AppList.BY_APPNAME,AppList.IN_ASCENDING,integer2);
+        if (aBoolean1)
+            AppList.getAllNewActivities(getApplicationContext(),appDataList,mainIntent,1);
+        else
+            AppList.sort(list, AppList.BY_APPNAME,AppList.IN_ASCENDING,integer2);
     }
 
     @Override
