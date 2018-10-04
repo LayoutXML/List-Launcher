@@ -111,6 +111,9 @@ public class MainActivity extends AppCompatActivity implements ActivityListener,
             AppDrawerFragment.progressBar.setVisibility(View.GONE);
         appDataList.clear();
         appDataList.addAll(list);
+        AppData itself = new AppData();
+        itself.setPackageName(getPackageName());
+        appDataList.remove(itself);
         if (AppDrawerFragment.appListAdapter!=null)
             AppDrawerFragment.appListAdapter.notifyDataSetChanged();
     }
